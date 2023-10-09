@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import styles from "./Button.style";
+import styles from "./ButtonStyle";
 
 const Button = ({ text, onPress, theme = "primary", loading = false }) => {
   return (

@@ -3,7 +3,7 @@ const colors = {
   watergreen: "#4FB99F",
   pinegreen: "#068587",
   yellow: "#F2B134",
-  black: "#068587",
+  black: "#112F41",
 
   darkgreen: "#00897b",
   lightgreen: "#C5E1A5",

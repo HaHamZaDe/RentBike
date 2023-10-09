@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TextInput } from "react-native";
 
-import styles from "./Input.style";
+import styles from "./InputStyle";
 import colors from "../../styles/colors";
 
 const Input = ({ placeholder, onType, isSecure }) => {
