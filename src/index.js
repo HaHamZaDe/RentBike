@@ -16,6 +16,7 @@ const AddData = () => {
       startDate: "06.10.2023",
       endDate: "20.10.2023",
       location: "Maltepe",
+      rating: "4",
     },
     {
       id: 2,
@@ -25,6 +26,7 @@ const AddData = () => {
       startDate: "07.10.2023",
       endDate: "25.10.2023",
       location: "Kadıköy",
+      rating: "2",
     },
     {
       id: 3,
@@ -34,6 +36,7 @@ const AddData = () => {
       startDate: "01.10.2023",
       endDate: "01.10.2024",
       location: "Beşiktaş",
+      rating: "4",
     },
     {
       id: 4,
@@ -43,6 +46,7 @@ const AddData = () => {
       startDate: "15.10.2023",
       endDate: "30.10.2023",
       location: "Ataköy",
+      rating: "3",
     },
     {
       id: 5,
@@ -52,6 +56,7 @@ const AddData = () => {
       startDate: "25.10.2023",
       endDate: "20.12.2023",
       location: "Maltepe",
+      rating: "5",
     },
   ];
 

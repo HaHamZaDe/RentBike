@@ -9,8 +9,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 //Screens
 import Login from "./src/Pages/Auth/Login";
 import Register from "./src/Pages/Auth/Register";
-import Home from "./src/Pages/TabPages/Home";
+import Home from "./src/Pages/HomePages/Home";
 import Profile from "./src/Pages/TabPages/Profile";
+import Detail from "./src/Pages/HomePages/Detail/Detail";
 
 //Components
 import TabBarIcon from "./src/Components/TabBarIcon";
@@ -22,8 +23,8 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [userSessison, setUserSession] = useState();
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      setUserSession(!!user);
+    firebase.auth().onAuthStateChanged((loggedIn) => {
+      setUserSession(!!loggedIn);
     });
   }, []);
 
@@ -35,10 +36,22 @@ export default function App() {
       </Stack.Navigator>
     );
   };
+  const HomeStack = () => {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Detail" component={Detail} />
+      </Stack.Navigator>
+    );
+  };
   const TabPages = () => {
     return (
       <Tab.Navigator screenOptions={TabBarScreenOptions}>
-        <Tab.Screen name="Home" component={Home} options={HomeOptions} />
+        <Tab.Screen
+          name="HomePages"
+          component={HomeStack}
+          options={HomeOptions}
+        />
         <Tab.Screen
           name="Profile"
           component={Profile}
