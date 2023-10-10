@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, SafeAreaView } from "react-native";
-import InfoCard from "../../../Components/Cards/İnfoCard";
-import fetchInfo from "../../../Hook/fetchInfo/fetchInfo";
-import styles from "./HomeStyle";
-import Loading from "../../../Components/Loading";
+import { Text, FlatList, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./HomeStyle";
 
-const Home = () => {
+//Components
+import InfoCard from "../../../Components/Cards/InfoCard";
+import Loading from "../../../Components/Loading";
+import fetchInfo from "../../../Hook/fetchInfo/fetchInfo";
+
+const Home = ({ setRating }) => {
   const [infoCards, setInfoCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+  const selectedRating = useSelector((state) => state.rating);
 
   useEffect(() => {
     fetchInfo()
@@ -19,19 +23,24 @@ const Home = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [selectedRating]);
 
-  const renderInfoItem = ({ item }) => (
+  const renderInfoItem = ({ item, index }) => (
     <InfoCard
-      type={item.type}
-      brand={item.brand}
-      location={item.location}
-      onSelect={() => handleInfoCardSelect(item)}
+      type={item?.type}
+      brand={item?.brand}
+      location={item?.location}
+      onSelect={() => handleInfoCardSelect(item, index)}
+      rating={item?.rating}
+      setRatingValue={(newRating) => {
+        setRating(newRating);
+        dispatch({ type: "SET_RATING", payload: newRating });
+      }}
     />
   );
 
-  const handleInfoCardSelect = (item) => {
-    navigation.navigate("Detail", { item });
+  const handleInfoCardSelect = (item, index) => {
+    navigation.navigate("Detail", { item, index });
   };
 
   return (

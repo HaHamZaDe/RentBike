@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { firebase } from "./config";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -10,7 +12,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Login from "./src/Pages/Auth/Login";
 import Register from "./src/Pages/Auth/Register";
 import Home from "./src/Pages/HomePages/Home";
-import Profile from "./src/Pages/TabPages/Profile";
+import Rent from "./src/Pages/TabPages/Rent";
 import Detail from "./src/Pages/HomePages/Detail/Detail";
 
 //Components
@@ -52,33 +54,31 @@ export default function App() {
           component={HomeStack}
           options={HomeOptions}
         />
-        <Tab.Screen
-          name="Profile"
-          component={Profile}
-          options={ProfileOptions}
-        />
+        <Tab.Screen name="Rent" component={Rent} options={RentOptions} />
       </Tab.Navigator>
     );
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {!userSessison ? (
-          <Stack.Screen
-            name="AuthScreen"
-            component={AuthStack}
-            options={{ headerShown: false }}
-          />
-        ) : (
-          <Stack.Screen
-            name="TabPages"
-            component={TabPages}
-            options={{ headerShown: false }}
-          />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {!userSessison ? (
+            <Stack.Screen
+              name="AuthScreen"
+              component={AuthStack}
+              options={{ headerShown: false }}
+            />
+          ) : (
+            <Stack.Screen
+              name="TabPages"
+              component={TabPages}
+              options={{ headerShown: false }}
+            />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
@@ -102,7 +102,7 @@ const HomeOptions = () => ({
   tabBarIcon: ({ focused }) => <TabBarIcon name="home" focused={focused} />,
 });
 
-const ProfileOptions = () => ({
+const RentOptions = () => ({
   headerShown: false,
   tabBarLabelStyle: {
     fontWeight: "bold",
@@ -110,6 +110,6 @@ const ProfileOptions = () => ({
     color: "#3d342f",
   },
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon name="account-circle" focused={focused} />
+    <TabBarIcon name="bike-scooter" focused={focused} />
   ),
 });

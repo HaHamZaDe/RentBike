@@ -2,7 +2,7 @@ import { Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import styles from "./InfoCardStyle";
 
-const İnfoCard = (props) => {
+const InfoCard = (props) => {
   return (
     <TouchableOpacity onPress={props.onSelect}>
       <View style={styles.container}>
@@ -11,9 +11,10 @@ const İnfoCard = (props) => {
         <View style={styles.locations_container}>
           <Text style={styles.locations}>{props.location}</Text>
         </View>
+        <Text>Rating: {props.rating} </Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-export default İnfoCard;
+export default InfoCard;
