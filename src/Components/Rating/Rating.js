@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
 
 const Rating = ({ setSelectedRating, defaultRating }) => {
@@ -9,7 +9,10 @@ const Rating = ({ setSelectedRating, defaultRating }) => {
     "https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_filled.png";
   const starImageCorner =
     "https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_corner.png";
-  console.log("defaultRating", defaultRating);
+
+  useEffect(() => {
+    onRatingChange(defaultRating);
+  }, [defaultRating]);
 
   const setRating = (rating) => {
     onRatingChange(rating);

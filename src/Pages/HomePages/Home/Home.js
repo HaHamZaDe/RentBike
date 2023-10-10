@@ -51,7 +51,7 @@ const Home = ({ setRating }) => {
       ) : (
         <FlatList
           data={infoCards}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={renderInfoItem}
         />
       )}

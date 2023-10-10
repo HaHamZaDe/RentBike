@@ -1,0 +1,54 @@
+{
+  "bikes": [
+    {
+      "brand": "Carraro",
+      "color": "Blue",
+      "endDate": "20.10.2023",
+      "id": 1,
+      "location": "Maltepe",
+      "rating": 2,
+      "startDate": "06.10.2023",
+      "type": "Mountain"
+    },
+    {
+      "brand": "Salcano",
+      "color": "Red",
+      "endDate": "25.10.2023",
+      "id": 2,
+      "location": "Kadıköy",
+      "rating": 3,
+      "startDate": "07.10.2023",
+      "type": "Road"
+    },
+    {
+      "brand": "Peugeot",
+      "color": "Yellow",
+      "endDate": "01.10.2024",
+      "id": 3,
+      "location": "Beşiktaş",
+      "rating": 1,
+      "startDate": "01.10.2023",
+      "type": "City"
+    },
+    {
+      "brand": "Bisan",
+      "color": "Purple",
+      "endDate": "30.10.2023",
+      "id": 4,
+      "location": "Ataköy",
+      "rating": 1,
+      "startDate": "15.10.2023",
+      "type": "Mountain"
+    },
+    {
+      "brand": "Bianchi",
+      "color": "Orange",
+      "endDate": "20.12.2023",
+      "id": 5,
+      "location": "Maltepe",
+      "rating": 5,
+      "startDate": "25.10.2023",
+      "type": "City"
+    }
+  ]
+}

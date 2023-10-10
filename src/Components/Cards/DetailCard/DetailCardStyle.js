@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+
 export default StyleSheet.create({
   container: {
     margin: 10,
-    padding: 7,
-    backgroundColor: "#ffe5cc",
+    padding: 10,
+    backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#e60020",
     borderRadius: 10,
@@ -15,7 +16,7 @@ export default StyleSheet.create({
   },
   type: {
     color: "black",
-    margin: 2,
+    marginVertical: 5,
   },
   locations_container: {
     borderWidth: 1,
@@ -23,10 +24,21 @@ export default StyleSheet.create({
     borderColor: "#e60020",
     backgroundColor: "#e60020",
     padding: 5,
-    alignSelf: "baseline",
+    alignSelf: "flex-start",
   },
   locations: {
     color: "white",
+    fontWeight: "bold",
+  },
+  reservedText: {
+    color: "red",
+  },
+  reserveButton: {
+    paddingTop: 20,
+    alignItems: "center",
+  },
+  reserveButtonText: {
+    color: "#e60020",
     fontWeight: "bold",
   },
 });

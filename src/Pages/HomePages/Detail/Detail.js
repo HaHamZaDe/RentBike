@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import React from "react";
 
-//Components
+// Components
 import DetailCard from "../../../Components/Cards/DetailCard";
 import { setRating } from "../../../redux/actions/ratingActions";
 
@@ -19,6 +19,7 @@ const Detail = ({ route, rating }) => {
         brand={item?.brand}
         location={item?.location}
         rating={item?.rating}
+        id={item?.id}
         index={index}
         setRatingValue={handleRatingUpdate}
         globalRating={rating}
