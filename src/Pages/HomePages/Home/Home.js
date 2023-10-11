@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Text, FlatList, SafeAreaView, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./HomeStyle";
 import { Picker } from "@react-native-picker/picker";
 
@@ -17,6 +18,15 @@ const Home = ({ setRating }) => {
   const [filterOption, setFilterOption] = useState("type");
   const navigation = useNavigation();
   const selectedRating = useSelector((state) => state.rating);
+
+  useEffect(() => {
+    setUserSession();
+  }, []);
+
+  const setUserSession = async () => {
+    await AsyncStorage.setItem("userSession", "true");
+    //firebase auth().onAuthStateChanged fonksiyonunun login state'i true dönmesi gerekirken null dönüyor.Bu yüzden burada AsyncStorage ile set etmek zorunda kaldım.
+  };
 
   useEffect(() => {
     fetchInfo()

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { firebase } from "./config";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -25,10 +26,23 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [userSessison, setUserSession] = useState();
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((loggedIn) => {
-      setUserSession(!!loggedIn);
+    checkUserSession();
+
+    firebase.auth().onAuthStateChanged(async (loggedIn) => {
+      if (loggedIn) {
+        setUserSession(true);
+      }
     });
   }, []);
+
+  const checkUserSession = async () => {
+    try {
+      const userSession = await AsyncStorage.getItem("userSession");
+      setUserSession(userSession);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
 
   const AuthStack = () => {
     return (
@@ -43,6 +57,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Detail" component={Detail} />
+        <Stack.Screen name="AuthScreen" component={AuthStack} />
       </Stack.Navigator>
     );
   };
@@ -76,6 +91,7 @@ export default function App() {
               options={{ headerShown: false }}
             />
           )}
+          <Stack.Screen name="Rent" component={Rent} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
