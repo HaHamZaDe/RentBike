@@ -24,7 +24,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [userSessison, setUserSession] = useState();
+  const [userSession, setUserSession] = useState();
   useEffect(() => {
     checkUserSession();
 
@@ -78,7 +78,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          {!userSessison ? (
+          {!userSession ? (
             <Stack.Screen
               name="AuthScreen"
               component={AuthStack}

@@ -4,7 +4,7 @@ import colors from "../../../styles/colors";
 export default StyleSheet.create({
   container: {
     margin: 10,
-    padding: 10,
+    padding: 7,
     backgroundColor: colors.openorange,
     borderWidth: 1,
     borderColor: colors.pinegreen,
@@ -22,35 +22,27 @@ export default StyleSheet.create({
   },
   type: {
     color: "black",
-    marginVertical: 5,
+    marginVertical: 2,
   },
-  locations_container: {
+  locationContainer: {
     borderWidth: 1,
     borderRadius: 10,
     borderColor: colors.pinegreen,
     backgroundColor: colors.orange,
     padding: 5,
-    alignSelf: "flex-start",
+    flexDirection: "column",
   },
   locations: {
     color: colors.openorange,
     fontWeight: "bold",
   },
-  reservedText: {
-    color: colors.orange,
-    fontWeight: "bold",
-  },
-  reserveButton: {
-    paddingTop: 20,
+  btnCancel: {
+    width: 60,
+    alignSelf: "center",
     alignItems: "center",
-  },
-  reserveButtonText: {
-    color: colors.orange,
-    fontWeight: "bold",
-  },
-  reservationDates: {
-    color: colors.black,
-    fontWeight: "bold",
-    marginTop: 10,
+    padding: 5,
+    borderRadius: 10,
+    backgroundColor: colors.yellow,
+    marginTop: 2,
   },
 });

@@ -7,7 +7,7 @@ import { setRating } from "../../../redux/actions/ratingActions";
 import styles from "./DetailStyle";
 
 const Detail = ({ route, rating }) => {
-  const { item, index } = route.params;
+  const { item } = route.params;
   const handleRatingUpdate = (newRating) => {
     setRating(newRating);
   };
@@ -21,9 +21,9 @@ const Detail = ({ route, rating }) => {
         location={item?.location}
         rating={item?.rating}
         id={item?.id}
-        index={index}
         setRatingValue={handleRatingUpdate}
         globalRating={rating}
+        isReserved={item?.isReserved}
       />
     </SafeAreaView>
   );

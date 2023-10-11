@@ -11,9 +11,9 @@ const DetailCard = (props) => {
   const [theRating, setTheRating] = useState(props.rating);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isReserved, setIsReserved] = useState(false);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [isReserved, setIsReserved] = useState(props.isReserved);
+  const [startDate, setStartDate] = useState(props.startDate);
+  const [endDate, setEndDate] = useState(props.endDate);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,18 +23,17 @@ const DetailCard = (props) => {
   }, [theRating]);
 
   const setRating = (selectedRating) => {
-    console.log({ selectedRating });
     setTheRating(selectedRating);
   };
 
   const updateBike = useCallback(() => {
     const bikesRef = ref(db, "bikes/");
     const bikeIndexToUpdate = props?.id;
-    const bikeToUpdateRef = child(bikesRef, bikeIndexToUpdate.toString());
+    const bikeToUpdateRef = child(bikesRef, bikeIndexToUpdate?.toString());
 
     update(bikeToUpdateRef, { rating: theRating })
       .then(() => {
-        console.log("Updated");
+        console.log("Bike updated");
         dispatch({ type: "SET_RATING", payload: theRating });
       })
       .catch((error) => {
@@ -49,28 +48,33 @@ const DetailCard = (props) => {
       } else if (!endDate) {
         setEndDate(selectedDate);
         setShowDatePicker(Platform.OS === "ios");
-
-        const bikesRef = ref(db, "bikes/");
-        const bikeIndexToUpdate = props?.id;
-        const bikeToUpdateRef = child(bikesRef, bikeIndexToUpdate.toString());
-
-        const formattedStartDate = startDate.toLocaleDateString("tr-TR");
-        const formattedEndDate = selectedDate.toLocaleDateString("tr-TR");
-
-        update(bikeToUpdateRef, {
-          startDate: formattedStartDate,
-          endDate: formattedEndDate,
-        })
-          .then(() => {
-            console.log("Reservation updated");
-            setIsReserved(true);
-          })
-          .catch((error) => {
-            console.error("Error:" + error.message);
-          });
       }
     }
   };
+
+  const confirmReservation = useCallback(() => {
+    if (startDate && endDate) {
+      const bikesRef = ref(db, "bikes/");
+      const bikeIndexToUpdate = props?.id;
+      const bikeToUpdateRef = child(bikesRef, bikeIndexToUpdate?.toString());
+
+      const formattedStartDate = startDate.toLocaleDateString("tr-TR");
+      const formattedEndDate = endDate.toLocaleDateString("tr-TR");
+
+      update(bikeToUpdateRef, {
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
+        isReserved: true,
+      })
+        .then(() => {
+          setIsReserved(true);
+          dispatch({ type: "SET_RESERVE", payload: isReserved });
+        })
+        .catch((error) => {
+          console.error("Error:" + error.message);
+        });
+    }
+  }, [startDate, endDate, isReserved, dispatch, props]);
 
   return (
     <View>
@@ -86,7 +90,15 @@ const DetailCard = (props) => {
         </View>
         <Rating setSelectedRating={setRating} defaultRating={theRating} />
         {isReserved ? (
-          <Text style={styles.reservedText}>Reserved</Text>
+          <View>
+            <Text style={styles.reservedText}>Reserved</Text>
+            {startDate && endDate && (
+              <Text style={styles.reservationDates}>
+                {startDate.toLocaleDateString("tr-TR")} -{" "}
+                {endDate.toLocaleDateString("tr-TR")}
+              </Text>
+            )}
+          </View>
         ) : (
           <View>
             {!startDate && !endDate ? (
@@ -96,7 +108,9 @@ const DetailCard = (props) => {
                 }}
                 style={styles.reserveButton}
               >
-                <Text style={styles.reserveButtonText}>Select Start Date</Text>
+                <Text style={styles.reserveButtonText}>
+                  Do you want to make a reservation?
+                </Text>
               </Pressable>
             ) : startDate && !endDate ? (
               <Pressable
@@ -108,7 +122,10 @@ const DetailCard = (props) => {
                 <Text style={styles.reserveButtonText}>Select End Date</Text>
               </Pressable>
             ) : (
-              <Pressable onPress={() => {}} style={styles.reserveButton}>
+              <Pressable
+                onPress={confirmReservation}
+                style={styles.reserveButton}
+              >
                 <Text style={styles.reserveButtonText}>
                   Confirm Reservation
                 </Text>

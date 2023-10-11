@@ -1,49 +1,60 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import colors from "../../../styles/colors";
-import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
+
+import { ref, onValue } from "firebase/database";
+import { db, firebase } from "../../../../config";
+import ReservedCard from "../../../Components/Cards/ReservedCard";
+import styles from "./RentStyle";
+import { useSelector } from "react-redux";
 
 const Rent = () => {
   const navigation = useNavigation();
-  const logOut = async () => {
-    await AsyncStorage.removeItem("userSession");
-    navigation.navigate("AuthScreen");
-  };
+  const [data, setData] = useState([]);
+  const filteredData = data?.filter((item) => item.isReserved == true);
+  const reservedBikes = useSelector((state) => state.isReserved);
+
+  useEffect(() => {
+    const bikesRef = ref(db, "bikes/");
+    onValue(bikesRef, (snapshot) => {
+      const data = snapshot.val();
+      setData(data);
+    });
+  }, [reservedBikes]);
+
+  const renderInfoItem = ({ item, index }) => (
+    <ReservedCard
+      brand={item?.brand}
+      type={item?.type}
+      startDate={item?.startDate}
+      endDate={item?.endDate}
+      location={item?.location}
+      id={item?.id}
+    />
+  );
+
   return (
     <View style={styles.container}>
-      <Text style={styles.warn}>Henüz bir kiralama yapmadınız!</Text>
-      <TouchableOpacity style={styles.btnLogOut} onPress={logOut}>
-        <Text>Log Out</Text>
-      </TouchableOpacity>
+      {filteredData?.length > 0 ? (
+        <View>
+          <FlatList
+            data={filteredData}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderInfoItem}
+          />
+        </View>
+      ) : (
+        <Text style={styles.warn}>Henüz bir kiralama yapmadınız!</Text>
+      )}
     </View>
   );
 };
 
 export default Rent;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.orange,
-    marginTop: StatusBar.currentHeight,
-  },
-  warn: {
-    fontSize: 20,
-    textAlign: "center",
-    fontWeight: "bold",
-    color: colors.yellow,
-    margin: 100,
-  },
-  btnLogOut: {
-    position: "absolute",
-    bottom: 50,
-    width: 100,
-    alignSelf: "center",
-    alignItems: "center",
-    paddingVertical: 5,
-    borderRadius: 5,
-    backgroundColor: colors.yellow,
-  },
-});

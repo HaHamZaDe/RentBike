@@ -18,6 +18,7 @@ const Home = ({ setRating }) => {
   const [filterOption, setFilterOption] = useState("type");
   const navigation = useNavigation();
   const selectedRating = useSelector((state) => state.rating);
+  const isReserved = useSelector((state) => state.isReserved);
 
   useEffect(() => {
     setUserSession();
@@ -49,6 +50,7 @@ const Home = ({ setRating }) => {
         setRating(newRating);
         dispatch({ type: "SET_RATING", payload: newRating });
       }}
+      isReserved={isReserved}
     />
   );
 
@@ -63,33 +65,37 @@ const Home = ({ setRating }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Bi-Rent</Text>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search..."
-          value={searchTerm}
-          onChangeText={(text) => setSearchTerm(text)}
-        />
-        <Picker
-          selectedValue={filterOption}
-          onValueChange={(itemValue, itemIndex) => setFilterOption(itemValue)}
-          style={styles.filterPicker}
-        >
-          <Picker.Item label="Type" value="type" />
-          <Picker.Item label="Brand" value="brand" />
-          <Picker.Item label="Location" value="location" />
-          <Picker.Item label="Rating" value="rating" />
-        </Picker>
-      </View>
       {loading ? (
         <Loading />
       ) : (
-        <FlatList
-          data={filteredInfoCards}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderInfoItem}
-        />
+        <>
+          <Text style={styles.header}>Bi-Rent</Text>
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search..."
+              value={searchTerm}
+              onChangeText={(text) => setSearchTerm(text)}
+            />
+            <Picker
+              selectedValue={filterOption}
+              onValueChange={(itemValue, itemIndex) =>
+                setFilterOption(itemValue)
+              }
+              style={styles.filterPicker}
+            >
+              <Picker.Item label="Type" value="type" />
+              <Picker.Item label="Brand" value="brand" />
+              <Picker.Item label="Location" value="location" />
+              <Picker.Item label="Rating" value="rating" />
+            </Picker>
+          </View>
+          <FlatList
+            data={filteredInfoCards}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderInfoItem}
+          />
+        </>
       )}
     </SafeAreaView>
   );
