@@ -1,10 +1,4 @@
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Pressable,
-  Platform,
-} from "react-native";
+import { Text, View, Pressable, Platform } from "react-native";
 import React, { useCallback, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ref, child, update } from "firebase/database";
@@ -79,12 +73,16 @@ const DetailCard = (props) => {
   };
 
   return (
-    <TouchableOpacity onPress={props.onSelect}>
+    <View>
       <View style={styles.container}>
-        <Text style={styles.brand}>{props.brand}</Text>
-        <Text style={styles.type}>{props.type}</Text>
-        <View style={styles.locations_container}>
-          <Text style={styles.locations}>{props.location}</Text>
+        <View style={styles.infoRow}>
+          <View>
+            <Text style={styles.brand}>{props.brand}</Text>
+            <Text style={styles.type}>{props.type}</Text>
+          </View>
+          <View style={styles.locations_container}>
+            <Text style={styles.locations}>{props.location}</Text>
+          </View>
         </View>
         <Rating setSelectedRating={setRating} defaultRating={theRating} />
         {isReserved ? (
@@ -129,7 +127,7 @@ const DetailCard = (props) => {
           />
         )}
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

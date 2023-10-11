@@ -1,13 +1,19 @@
 import { StyleSheet } from "react-native";
+import colors from "../../../styles/colors";
 
 export default StyleSheet.create({
   container: {
     margin: 10,
     padding: 10,
-    backgroundColor: "#fff",
+    backgroundColor: colors.openorange,
     borderWidth: 1,
-    borderColor: "#e60020",
+    borderColor: colors.pinegreen,
     borderRadius: 10,
+  },
+  infoRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   brand: {
     color: "black",
@@ -21,13 +27,13 @@ export default StyleSheet.create({
   locations_container: {
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: "#e60020",
-    backgroundColor: "#e60020",
+    borderColor: colors.pinegreen,
+    backgroundColor: colors.orange,
     padding: 5,
     alignSelf: "flex-start",
   },
   locations: {
-    color: "white",
+    color: colors.openorange,
     fontWeight: "bold",
   },
   reservedText: {
