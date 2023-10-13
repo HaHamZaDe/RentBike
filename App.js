@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { TouchableOpacity, Text } from "react-native";
 import { firebase } from "./config";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-//Navigation
+// Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-//Screens
+// Screens
 import Login from "./src/Pages/Auth/Login";
 import Register from "./src/Pages/Auth/Register";
 import Home from "./src/Pages/HomePages/Home";
 import Rent from "./src/Pages/TabPages/Rent";
 import Detail from "./src/Pages/HomePages/Detail/Detail";
 
-//Components
-import TabBarIcon from "./src/Components/TabBarIcon";
+// Components
+import Icon from "./src/Components/Icon";
 import colors from "./src/styles/colors";
 
 const Stack = createNativeStackNavigator();
@@ -57,7 +58,6 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Detail" component={Detail} />
-        <Stack.Screen name="AuthScreen" component={AuthStack} />
       </Stack.Navigator>
     );
   };
@@ -74,6 +74,16 @@ export default function App() {
     );
   };
 
+  const handleLogout = async () => {
+    try {
+      await firebase.auth().signOut();
+      await AsyncStorage.removeItem("userSession");
+      setUserSession(null);
+    } catch (error) {
+      console.log("Çıkış işlemi sırasında bir hata oluştu:", error);
+    }
+  };
+
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -88,7 +98,20 @@ export default function App() {
             <Stack.Screen
               name="TabPages"
               component={TabPages}
-              options={{ headerShown: false }}
+              options={{
+                headerStyle: {
+                  height: 60,
+                  backgroundColor: colors.yellow,
+                },
+                headerRight: () => (
+                  <TouchableOpacity onPress={handleLogout}>
+                    <Icon name="logout" color={colors.black} />
+                  </TouchableOpacity>
+                ),
+                headerShown: true,
+                title: "Bi-Rent",
+                headerTitleAlign: "center",
+              }}
             />
           )}
           <Stack.Screen name="Rent" component={Rent} />
@@ -115,7 +138,7 @@ const HomeOptions = () => ({
     fontWeight: "bold",
     fontSize: 15,
   },
-  tabBarIcon: ({ focused }) => <TabBarIcon name="home" focused={focused} />,
+  tabBarIcon: ({ focused }) => <Icon name="home" focused={focused} />,
 });
 
 const RentOptions = () => ({
@@ -125,7 +148,5 @@ const RentOptions = () => ({
     fontSize: 15,
     color: "#3d342f",
   },
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon name="bike-scooter" focused={focused} />
-  ),
+  tabBarIcon: ({ focused }) => <Icon name="bike-scooter" focused={focused} />,
 });

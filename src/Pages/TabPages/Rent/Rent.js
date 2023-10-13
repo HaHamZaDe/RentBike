@@ -1,22 +1,14 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import { Text, View, FlatList, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
 
 import { ref, onValue } from "firebase/database";
-import { db, firebase } from "../../../../config";
+import { db } from "../../../../config";
 import ReservedCard from "../../../Components/Cards/ReservedCard";
 import styles from "./RentStyle";
 import { useSelector } from "react-redux";
+import colors from "../../../styles/colors";
 
 const Rent = () => {
-  const navigation = useNavigation();
   const [data, setData] = useState([]);
   const filteredData = data?.filter((item) => item.isReserved == true);
   const reservedBikes = useSelector((state) => state.isReserved);
@@ -29,7 +21,7 @@ const Rent = () => {
     });
   }, [reservedBikes]);
 
-  const renderInfoItem = ({ item, index }) => (
+  const renderInfoItem = ({ item }) => (
     <ReservedCard
       brand={item?.brand}
       type={item?.type}
@@ -41,19 +33,26 @@ const Rent = () => {
   );
 
   return (
-    <View style={styles.container}>
-      {filteredData?.length > 0 ? (
-        <View>
-          <FlatList
-            data={filteredData}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderInfoItem}
-          />
-        </View>
-      ) : (
-        <Text style={styles.warn}>Henüz bir kiralama yapmadınız!</Text>
-      )}
-    </View>
+    <>
+      <StatusBar
+        barStyle={"light-content"}
+        backgroundColor={colors.orange}
+        translucent={true}
+      />
+      <View style={styles.container}>
+        {filteredData?.length > 0 ? (
+          <View>
+            <FlatList
+              data={filteredData}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderInfoItem}
+            />
+          </View>
+        ) : (
+          <Text style={styles.warn}>Henüz bir kiralama yapmadınız!</Text>
+        )}
+      </View>
+    </>
   );
 };
 

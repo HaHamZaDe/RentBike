@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Text, FlatList, SafeAreaView, TextInput, View } from "react-native";
+import {
+  FlatList,
+  SafeAreaView,
+  TextInput,
+  View,
+  StatusBar,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,6 +16,7 @@ import { Picker } from "@react-native-picker/picker";
 import InfoCard from "../../../Components/Cards/InfoCard";
 import Loading from "../../../Components/Loading";
 import fetchInfo from "../../../Hook/fetchInfo/fetchInfo";
+import colors from "../../../styles/colors";
 
 const Home = ({ setRating }) => {
   const [infoCards, setInfoCards] = useState([]);
@@ -64,40 +71,46 @@ const Home = ({ setRating }) => {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <Text style={styles.header}>Bi-Rent</Text>
-          <View style={styles.searchContainer}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search..."
-              value={searchTerm}
-              onChangeText={(text) => setSearchTerm(text)}
+    <>
+      <StatusBar
+        barStyle={"light-content"}
+        backgroundColor={colors.orange}
+        translucent={true}
+      />
+      <SafeAreaView style={styles.container}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search..."
+                value={searchTerm}
+                onChangeText={(text) => setSearchTerm(text)}
+              />
+              <Picker
+                selectedValue={filterOption}
+                onValueChange={(itemValue, itemIndex) =>
+                  setFilterOption(itemValue)
+                }
+                style={styles.filterPicker}
+              >
+                <Picker.Item label="Type" value="type" />
+                <Picker.Item label="Brand" value="brand" />
+                <Picker.Item label="Location" value="location" />
+                <Picker.Item label="Rating" value="rating" />
+              </Picker>
+            </View>
+            <FlatList
+              data={filteredInfoCards}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderInfoItem}
             />
-            <Picker
-              selectedValue={filterOption}
-              onValueChange={(itemValue, itemIndex) =>
-                setFilterOption(itemValue)
-              }
-              style={styles.filterPicker}
-            >
-              <Picker.Item label="Type" value="type" />
-              <Picker.Item label="Brand" value="brand" />
-              <Picker.Item label="Location" value="location" />
-              <Picker.Item label="Rating" value="rating" />
-            </Picker>
-          </View>
-          <FlatList
-            data={filteredInfoCards}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderInfoItem}
-          />
-        </>
-      )}
-    </SafeAreaView>
+          </>
+        )}
+      </SafeAreaView>
+    </>
   );
 };
 
