@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { firebase } from "../../../../config";
 import styles from "./LoginStyle";
@@ -25,7 +25,12 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Bi-Rent</Text>
+      <View style={styles.image_container}>
+        <Image
+          style={styles.image}
+          source={require("../../../../assets/logo.png")}
+        />
+      </View>
       <View style={styles.inputContainer}>
         <Input
           onType={(email) => setEmail(email)}

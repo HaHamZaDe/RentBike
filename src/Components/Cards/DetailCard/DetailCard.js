@@ -33,7 +33,6 @@ const DetailCard = (props) => {
 
     update(bikeToUpdateRef, { rating: theRating })
       .then(() => {
-        console.log("Bike updated");
         dispatch({ type: "SET_RATING", payload: theRating });
       })
       .catch((error) => {

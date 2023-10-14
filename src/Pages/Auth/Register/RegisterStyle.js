@@ -8,6 +8,14 @@ export default StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight,
   },
+  image_container: {
+    alignItems: "center",
+    padding: 10,
+  },
+  image: {
+    width: 350,
+    height: 350,
+  },
   header: {
     fontSize: 100,
     fontWeight: "bold",

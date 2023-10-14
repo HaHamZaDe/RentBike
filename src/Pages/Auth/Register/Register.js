@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { firebase } from "../../../../config";
 import styles from "./RegisterStyle";
 import Input from "../../../Components/Input";
@@ -24,7 +24,12 @@ const Register = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Bi-Rent</Text>
+      <View style={styles.image_container}>
+        <Image
+          style={styles.image}
+          source={require("../../../../assets/logo.png")}
+        />
+      </View>
       <View style={styles.inputContainer}>
         <Input
           onType={(email) => setEmail(email)}
