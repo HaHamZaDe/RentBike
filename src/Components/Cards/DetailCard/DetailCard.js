@@ -1,11 +1,12 @@
-import { Text, View, Pressable, Platform } from "react-native";
 import React, { useCallback, useState, useEffect } from "react";
+import { View, Text, Pressable } from "react-native";
 import { useDispatch } from "react-redux";
 import { ref, child, update } from "firebase/database";
 import { db } from "../../../../config";
 import Rating from "../../Rating/Rating";
 import styles from "./DetailCardStyle";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import MapView, { Marker } from "react-native-maps";
 
 const DetailCard = (props) => {
   const [theRating, setTheRating] = useState(props.rating);
@@ -15,6 +16,13 @@ const DetailCard = (props) => {
   const [startDate, setStartDate] = useState(props.startDate);
   const [endDate, setEndDate] = useState(props.endDate);
   const dispatch = useDispatch();
+
+  const [mapRegion, setMapRegion] = useState({
+    latitude: props?.lat,
+    longitude: props?.long,
+    latitudeDelta: 0.0052,
+    longitudeDelta: 0.0051,
+  });
 
   useEffect(() => {
     if (theRating !== undefined) {
@@ -76,74 +84,83 @@ const DetailCard = (props) => {
   }, [startDate, endDate, isReserved, dispatch, props]);
 
   return (
-    <View>
+    <>
       <View style={styles.container}>
-        <View style={styles.infoRow}>
-          <View>
-            <Text style={styles.brand}>{props.brand}</Text>
-            <Text style={styles.type}>{props.type}</Text>
+        <View style={styles.infoContainer}>
+          <View style={styles.infoRow}>
+            <View>
+              <Text style={styles.brand}>{props.brand}</Text>
+              <Text style={styles.type}>{props.type}</Text>
+            </View>
+            <View style={styles.locations_container}>
+              <Text style={styles.locations}>{props.location}</Text>
+            </View>
           </View>
-          <View style={styles.locations_container}>
-            <Text style={styles.locations}>{props.location}</Text>
-          </View>
+          <Rating setSelectedRating={setRating} defaultRating={theRating} />
+          {isReserved ? (
+            <View>
+              <Text style={styles.reservedText}>Reserved</Text>
+              {startDate && endDate && (
+                <Text style={styles.reservationDates}>
+                  {startDate.toLocaleDateString("tr-TR")} -{" "}
+                  {endDate.toLocaleDateString("tr-TR")}
+                </Text>
+              )}
+            </View>
+          ) : (
+            <View>
+              {!startDate && !endDate ? (
+                <Pressable
+                  onPress={() => {
+                    setShowDatePicker(true);
+                  }}
+                  style={styles.reserveButton}
+                >
+                  <Text style={styles.reserveButtonText}>
+                    Do you want to make a reservation?
+                  </Text>
+                </Pressable>
+              ) : startDate && !endDate ? (
+                <Pressable
+                  onPress={() => {
+                    setShowDatePicker(true);
+                  }}
+                  style={styles.reserveButton}
+                >
+                  <Text style={styles.reserveButtonText}>Select End Date</Text>
+                </Pressable>
+              ) : (
+                <Pressable
+                  onPress={confirmReservation}
+                  style={styles.reserveButton}
+                >
+                  <Text style={styles.reserveButtonText}>
+                    Confirm Reservation
+                  </Text>
+                </Pressable>
+              )}
+            </View>
+          )}
+          {showDatePicker && (
+            <DateTimePicker
+              value={startDate || selectedDate}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={handleDateChange}
+              minimumDate={new Date()}
+            />
+          )}
         </View>
-        <Rating setSelectedRating={setRating} defaultRating={theRating} />
-        {isReserved ? (
-          <View>
-            <Text style={styles.reservedText}>Reserved</Text>
-            {startDate && endDate && (
-              <Text style={styles.reservationDates}>
-                {startDate.toLocaleDateString("tr-TR")} -{" "}
-                {endDate.toLocaleDateString("tr-TR")}
-              </Text>
-            )}
-          </View>
-        ) : (
-          <View>
-            {!startDate && !endDate ? (
-              <Pressable
-                onPress={() => {
-                  setShowDatePicker(true);
-                }}
-                style={styles.reserveButton}
-              >
-                <Text style={styles.reserveButtonText}>
-                  Do you want to make a reservation?
-                </Text>
-              </Pressable>
-            ) : startDate && !endDate ? (
-              <Pressable
-                onPress={() => {
-                  setShowDatePicker(true);
-                }}
-                style={styles.reserveButton}
-              >
-                <Text style={styles.reserveButtonText}>Select End Date</Text>
-              </Pressable>
-            ) : (
-              <Pressable
-                onPress={confirmReservation}
-                style={styles.reserveButton}
-              >
-                <Text style={styles.reserveButtonText}>
-                  Confirm Reservation
-                </Text>
-              </Pressable>
-            )}
-          </View>
-        )}
-        {showDatePicker && (
-          <DateTimePicker
-            value={startDate || selectedDate}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={handleDateChange}
-            minimumDate={new Date()}
-          />
-        )}
       </View>
-    </View>
+      <MapView style={styles.map} region={mapRegion}>
+        <Marker
+          coordinate={mapRegion}
+          title={props.brand}
+          description={`${props.type} Bcycle`}
+        />
+      </MapView>
+    </>
   );
 };
 

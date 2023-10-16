@@ -31,6 +31,8 @@ const Detail = ({ route, rating }) => {
           setRatingValue={handleRatingUpdate}
           globalRating={rating}
           isReserved={item?.isReserved}
+          lat={item?.lat}
+          long={item?.long}
         />
       </SafeAreaView>
     </>

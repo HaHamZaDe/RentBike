@@ -53,4 +53,16 @@ export default StyleSheet.create({
     fontWeight: "bold",
     marginTop: 10,
   },
+  mapContainer: {
+    margin: 10,
+    height: 300,
+    borderWidth: 1,
+    borderColor: colors.pinegreen,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  map: {
+    flex: 1,
+    alignSelf: "stretch",
+  },
 });
