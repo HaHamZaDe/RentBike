@@ -25,15 +25,10 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [userSession, setUserSession] = useState();
+  const [userSession, setUserSession] = useState(null);
+
   useEffect(() => {
     checkUserSession();
-
-    firebase.auth().onAuthStateChanged(async (loggedIn) => {
-      if (loggedIn) {
-        setUserSession(true);
-      }
-    });
   }, []);
 
   const checkUserSession = async () => {

@@ -16,10 +16,11 @@ const DetailCard = (props) => {
   const [startDate, setStartDate] = useState(props.startDate);
   const [endDate, setEndDate] = useState(props.endDate);
   const dispatch = useDispatch();
+  const { id, lat, long, brand, type, location } = props;
 
   const [mapRegion, setMapRegion] = useState({
-    latitude: props?.lat,
-    longitude: props?.long,
+    latitude: lat,
+    longitude: long,
     latitudeDelta: 0.0052,
     longitudeDelta: 0.0051,
   });
@@ -34,10 +35,10 @@ const DetailCard = (props) => {
     setTheRating(selectedRating);
   };
 
-  const updateBike = useCallback(() => {
+  const updateBike = () => {
     const bikesRef = ref(db, "bikes/");
-    const bikeIndexToUpdate = props?.id;
-    const bikeToUpdateRef = child(bikesRef, bikeIndexToUpdate?.toString());
+    const bikeIdToUpdate = id;
+    const bikeToUpdateRef = child(bikesRef, bikeIdToUpdate?.toString());
 
     update(bikeToUpdateRef, { rating: theRating })
       .then(() => {
@@ -46,7 +47,7 @@ const DetailCard = (props) => {
       .catch((error) => {
         console.error("Error:" + error.message);
       });
-  }, [theRating, dispatch, props]);
+  };
 
   const handleDateChange = (event, selectedDate) => {
     if (selectedDate) {
@@ -62,8 +63,8 @@ const DetailCard = (props) => {
   const confirmReservation = useCallback(() => {
     if (startDate && endDate) {
       const bikesRef = ref(db, "bikes/");
-      const bikeIndexToUpdate = props?.id;
-      const bikeToUpdateRef = child(bikesRef, bikeIndexToUpdate?.toString());
+      const bikeIdToUpdate = id;
+      const bikeToUpdateRef = child(bikesRef, bikeIdToUpdate?.toString());
 
       const formattedStartDate = startDate.toLocaleDateString("tr-TR");
       const formattedEndDate = endDate.toLocaleDateString("tr-TR");
@@ -89,11 +90,11 @@ const DetailCard = (props) => {
         <View style={styles.infoContainer}>
           <View style={styles.infoRow}>
             <View>
-              <Text style={styles.brand}>{props.brand}</Text>
-              <Text style={styles.type}>{props.type}</Text>
+              <Text style={styles.brand}>{brand}</Text>
+              <Text style={styles.type}>{type}</Text>
             </View>
             <View style={styles.locations_container}>
-              <Text style={styles.locations}>{props.location}</Text>
+              <Text style={styles.locations}>{location}</Text>
             </View>
           </View>
           <Rating setSelectedRating={setRating} defaultRating={theRating} />
@@ -156,8 +157,8 @@ const DetailCard = (props) => {
       <MapView style={styles.map} region={mapRegion}>
         <Marker
           coordinate={mapRegion}
-          title={props.brand}
-          description={`${props.type} Bcycle`}
+          title={brand}
+          description={`${type} Bcycle`}
         />
       </MapView>
     </>
