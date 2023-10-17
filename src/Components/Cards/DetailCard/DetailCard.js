@@ -142,7 +142,7 @@ const DetailCard = (props) => {
               )}
             </View>
           )}
-          {(!startDate || !endDate) && (
+          {showDatePicker && (!startDate || !endDate) && (
             <DateTimePicker
               value={startDate || selectedDate}
               mode="date"

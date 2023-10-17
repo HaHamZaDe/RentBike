@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { firebase } from "./config";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
@@ -123,6 +123,7 @@ export default function App() {
 
 const TabBarScreenOptions = ({ route }) => ({
   tabBarShowLabel: false,
+  unmountOnBlur: true,
   tabBarInactiveBackgroundColor: colors.orange,
   tabBarActiveBackgroundColor:
     route.name === "Home"

@@ -7,17 +7,22 @@ import ReservedCard from "../../../Components/Cards/ReservedCard";
 import styles from "./RentStyle";
 import { useSelector } from "react-redux";
 import colors from "../../../styles/colors";
+import Loading from "../../../Components/Loading";
 
 const Rent = () => {
   const [data, setData] = useState([]);
   const filteredData = data?.filter((item) => item.isReserved == true);
   const reservedBikes = useSelector((state) => state.isReserved);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const bikesRef = ref(db, "bikes/");
     onValue(bikesRef, (snapshot) => {
       const data = snapshot.val();
       setData(data);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     });
   }, [reservedBikes]);
 
@@ -39,17 +44,24 @@ const Rent = () => {
         backgroundColor={colors.orange}
         translucent={true}
       />
+
       <View style={styles.container}>
-        {filteredData?.length > 0 ? (
-          <View>
-            <FlatList
-              data={filteredData}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderInfoItem}
-            />
-          </View>
+        {loading ? (
+          <Loading />
         ) : (
-          <Text style={styles.warn}>Henüz bir kiralama yapmadınız!</Text>
+          <>
+            {filteredData?.length > 0 ? (
+              <View>
+                <FlatList
+                  data={filteredData}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderInfoItem}
+                />
+              </View>
+            ) : (
+              <Text style={styles.warn}>Henüz bir kiralama yapmadınız!</Text>
+            )}
+          </>
         )}
       </View>
     </>
