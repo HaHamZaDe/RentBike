@@ -19,7 +19,7 @@ import fetchInfo from "../../../Hook/fetchInfo/fetchInfo";
 import colors from "../../../styles/colors";
 
 const Home = ({ setRating }) => {
-  const [infoCards, setInfoCards] = useState([]);
+  const [infoCardsData, setInfoCardsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterOption, setFilterOption] = useState("type");
@@ -39,7 +39,7 @@ const Home = ({ setRating }) => {
   useEffect(() => {
     fetchInfo()
       .then((data) => {
-        setInfoCards(data);
+        setInfoCardsData(data);
       })
       .finally(() => {
         setLoading(false);
@@ -53,10 +53,6 @@ const Home = ({ setRating }) => {
       location={item?.location}
       onSelect={() => handleInfoCardSelect(item, index)}
       rating={item?.rating}
-      setRatingValue={(newRating) => {
-        setRating(newRating);
-        dispatch({ type: "SET_RATING", payload: newRating });
-      }}
       isReserved={isReserved}
     />
   );
@@ -65,7 +61,7 @@ const Home = ({ setRating }) => {
     navigation.navigate("Detail", { item, index });
   };
 
-  const filteredInfoCards = infoCards.filter((item) => {
+  const filteredInfoCards = infoCardsData.filter((item) => {
     const filterValue = item[filterOption]?.toString().toLowerCase();
     return filterValue?.includes(searchTerm.toLowerCase());
   });

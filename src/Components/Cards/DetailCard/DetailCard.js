@@ -18,12 +18,12 @@ const DetailCard = (props) => {
   const dispatch = useDispatch();
   const { id, lat, long, brand, type, location } = props;
 
-  const [mapRegion, setMapRegion] = useState({
+  const mapRegion = {
     latitude: lat,
     longitude: long,
     latitudeDelta: 0.0052,
     longitudeDelta: 0.0051,
-  });
+  };
 
   useEffect(() => {
     if (theRating !== undefined) {
@@ -142,7 +142,7 @@ const DetailCard = (props) => {
               )}
             </View>
           )}
-          {showDatePicker && (
+          {(!startDate || !endDate) && (
             <DateTimePicker
               value={startDate || selectedDate}
               mode="date"

@@ -29,6 +29,11 @@ export default function App() {
 
   useEffect(() => {
     checkUserSession();
+    firebase.auth().onAuthStateChanged(async (loggedIn) => {
+      if (loggedIn) {
+        setUserSession(true);
+      }
+    });
   }, []);
 
   const checkUserSession = async () => {
