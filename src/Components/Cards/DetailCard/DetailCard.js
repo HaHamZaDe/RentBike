@@ -155,7 +155,11 @@ const DetailCard = (props) => {
         </View>
       </View>
       <MapView style={styles.map} region={mapRegion}>
-        <Marker coordinate={mapRegion}>
+        <Marker
+          coordinate={mapRegion}
+          title={brand}
+          description={`${type} Bcycle`}
+        >
           <Image
             source={require("../../../../assets/bicycle.png")}
             style={styles.mapImage}
