@@ -65,4 +65,8 @@ export default StyleSheet.create({
     flex: 1,
     alignSelf: "stretch",
   },
+  mapImage: {
+    width: 40,
+    height: 40,
+  },
 });

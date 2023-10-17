@@ -18,7 +18,7 @@ import Loading from "../../../Components/Loading";
 import fetchInfo from "../../../Hook/fetchInfo/fetchInfo";
 import colors from "../../../styles/colors";
 
-const Home = ({ setRating }) => {
+const Home = () => {
   const [infoCardsData, setInfoCardsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");

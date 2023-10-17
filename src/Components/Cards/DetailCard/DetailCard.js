@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import { useDispatch } from "react-redux";
 import { ref, child, update } from "firebase/database";
 import { db } from "../../../../config";
@@ -155,11 +155,12 @@ const DetailCard = (props) => {
         </View>
       </View>
       <MapView style={styles.map} region={mapRegion}>
-        <Marker
-          coordinate={mapRegion}
-          title={brand}
-          description={`${type} Bcycle`}
-        />
+        <Marker coordinate={mapRegion}>
+          <Image
+            source={require("../../../../assets/bicycle.png")}
+            style={styles.mapImage}
+          />
+        </Marker>
       </MapView>
     </>
   );
