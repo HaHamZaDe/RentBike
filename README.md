@@ -21,3 +21,7 @@ The project utilizes the following technologies and dependencies:
 * React Native Async Storage: Used for local storage.
 
 The purpose of this project is to make it easy for users to rent bicycles and to provide them with easy access to bicycle details. Users can create an account, log in, search for bicycles, rate them, and make reservations. Firebase is also used for managing reservations. The project is designed with a user-friendly interface to enhance the bicycle rental experience, and it is intended to work on mobile devices.
+
+
+https://github.com/HaHamZaDe/RentBike/assets/100444900/3431598c-1e72-4d41-8920-c97f4113b546
+
